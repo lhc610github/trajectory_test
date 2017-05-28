@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/liao/work/rpi_zero_w/my_traject/my_traject.cpp
+stdio.h
+-
+stdlib.h
+-
+math.h
+-
+string.h
+-
+iostream
+-
+list
+-
+

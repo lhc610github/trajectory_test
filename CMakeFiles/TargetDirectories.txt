@@ -1,0 +1,1 @@
+/home/liao/work/rpi_zero_w/my_traject/CMakeFiles/my_traject.dir
