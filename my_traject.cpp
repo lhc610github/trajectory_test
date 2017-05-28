@@ -12,7 +12,6 @@ class my_traject
     public:
         my_traject(int temp_order, int temp_m);
         ~my_traject();
-        void init(int temp_order, int temp_m);
         void computeA(float mu_r, float mu_psi, int k_r, int k_psi, float *t);
         void print_A();
     private:
@@ -20,6 +19,7 @@ class my_traject
         int m;
         int A_col_row;
         float ** c_A_res;
+        void init(int temp_order, int temp_m);
 };
 
 my_traject::
@@ -77,37 +77,21 @@ my_traject::computeA(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
         }
     }
 
-
-
-    //printf("aaaaa\n");
-
-    //float A_x[order+1][order+1];
-    //float A_y[order+1][order+1];
-    //float A_z[order+1][order+1];
-    //float A_psi[order+1][order+1];
     float A[m][4][order+1][order+1];
     memset(A,0,sizeof(A));
-    //float** A_res = new float *[4*m*(order+1)];
-    //for (i=0 ; i < 4*m*(order+1) ; i++)
-    //{
-        //A_res[i] = new float[4*m*(order+1)];
-    //}
-     float A_res[A_col_row][A_col_row];
-    printf("size A : %d \n",(int)sizeof(A_res));
-    //A_res = (float**)calloc(4*m*(order+1),sizeof(float)*4*m*(order+1));
-    //float A_res[4*m*(order+1)][4*m*(order+1)];
-    memset(A_res,0,sizeof(A_res));
+    //float A_res[A_col_row][A_col_row];
     //printf("size A : %d \n",(int)sizeof(A_res));
+    for (i = 0; i < A_col_row ; i++)
+    memset(&(*c_A_res[i]),0,sizeof(float)*A_col_row);
+
     int order_t_r,order_t_psi;
     int count_state;
     int base_count_i;
     int base_count_state;
     float mu_x;
     
-    //printf("aaaaa\n");
     for (i = 0; i < m; i++)
     {
-    //printf("aaaa  i  %d \n",i);
         for (j = 0; j < (order+1); j++)
         {
             for (k = j; k < (order+1); k++)
@@ -124,7 +108,6 @@ my_traject::computeA(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
                                     *(pow(t[i+1],(order_t_r + 1)) - pow(t[i],(order_t_r + 1)));
                         A[i][2][j][k] = pow(polynomial_r[j],2)/(order_t_r + 1) \
                                     *(pow(t[i+1],(order_t_r + 1)) - pow(t[i],(order_t_r + 1)));
-                //printf("aaaa  j  %d \n",j);
                     }
                     else
                     {
@@ -134,7 +117,6 @@ my_traject::computeA(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
                                     *(pow(t[i+1],(order_t_r + 1)) - pow(t[i],(order_t_r + 1)));
                         A[i][2][j][k] = 2*polynomial_r[j]*polynomial_r[k]/(order_t_r + 1) \
                                     *(pow(t[i+1],(order_t_r + 1)) - pow(t[i],(order_t_r + 1)));
-                //printf("aaaa  j,k %d,%d\n",j,k);
                     }
 
                 }
@@ -143,7 +125,6 @@ my_traject::computeA(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
                           A[i][0][j][k] = 0;
                           A[i][1][j][k] = 0;
                           A[i][2][j][k] = 0;
-                //printf("aaaa  j,k %d,%d\n",j,k);
                 }
 
 
@@ -190,29 +171,29 @@ my_traject::computeA(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
                 {
                     if ( k == j )
                     {
-                //printf("bbbb  j %d\n",j);
-                //printf("cccc  bug %d\n",base_count_i + base_count_state + j);
-                        A_res[base_count_i + base_count_state + j][base_count_i + base_count_state + k] = A[i][count_state][j][k] * mu_x;
-                //printf("bbbb  j %d\n",j);
+                        c_A_res[base_count_i + base_count_state + j][base_count_i + base_count_state + k] = A[i][count_state][j][k] * mu_x;
                     }
                     else
                     {
-                        A_res[base_count_i + base_count_state + j][base_count_i + base_count_state + k] = (A[i][count_state][j][k]+A[i][count_state][k][j])/2*mu_x;
-                        A_res[base_count_i + base_count_state + j][base_count_i + base_count_state + k] = A_res[base_count_i + base_count_state + k][base_count_i + base_count_state + j];
-                //printf("bbbb  jk %d,%d\n",j,k);
+                        c_A_res[base_count_i + base_count_state + j][base_count_i + base_count_state + k] = (A[i][count_state][j][k]+A[i][count_state][k][j])/2*mu_x;
+                        c_A_res[base_count_i + base_count_state + k][base_count_i + base_count_state + j] = c_A_res[base_count_i + base_count_state + j][base_count_i + base_count_state + k];
                     }
                 }
             }
         }
     }
 
-    c_A_res = (float **)A_res;
 }
 
 void
 my_traject::print_A()
 {
-    std::cout<<c_A_res[2][2]<<std::endl;
+    for(int i=0;i < A_col_row;i++)
+    {
+        for(int j=0;j < A_col_row;j++)
+            printf("%.1f ",c_A_res[i][j]);
+        std::cout<<std::endl;
+    }
 }
 
 
@@ -225,10 +206,8 @@ main()
    float mu_psi = 1;
    int k_r = 4;
    int k_psi = 2;
-   //float** A;
    float t_index[6] = {0,2,4,6,8,10};
    my_traject C_A(order,m);
-   //C_A.init(order,m);
    C_A.computeA(mu_r, mu_psi,  k_r, k_psi, t_index);
    C_A.print_A();
    return 0;
