@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/liao/work/rpi_zero_w/my_traject/my_traject.cpp" "/home/liao/work/rpi_zero_w/my_traject/CMakeFiles/my_traject.dir/my_traject.cpp.o"
+  "/home/exbot/rpi_z/trajectory_test/my_traject.cpp" "/home/exbot/rpi_z/trajectory_test/CMakeFiles/my_traject.dir/my_traject.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -20,7 +20,7 @@ set(CMAKE_TARGET_LINKED_INFO_FILES
 
 # The include file search paths:
 set(CMAKE_C_TARGET_INCLUDE_PATH
-  "/usr/include/x86_64-linux-gnu"
+  "/usr/include/i386-linux-gnu"
   "."
   )
 set(CMAKE_CXX_TARGET_INCLUDE_PATH ${CMAKE_C_TARGET_INCLUDE_PATH})

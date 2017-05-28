@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/liao/work/rpi_zero_w/my_traject/my_traject.cpp
+/home/exbot/rpi_z/trajectory_test/my_traject.cpp
 stdio.h
 -
 stdlib.h

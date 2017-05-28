@@ -47,10 +47,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/liao/work/rpi_zero_w/my_traject
+CMAKE_SOURCE_DIR = /home/exbot/rpi_z/trajectory_test
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/liao/work/rpi_zero_w/my_traject
+CMAKE_BINARY_DIR = /home/exbot/rpi_z/trajectory_test
 
 #=============================================================================
 # Target rules for target CMakeFiles/my_traject.dir
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/liao/work/rpi_zero_w/my_traject
 CMakeFiles/my_traject.dir/all:
 	$(MAKE) -f CMakeFiles/my_traject.dir/build.make CMakeFiles/my_traject.dir/depend
 	$(MAKE) -f CMakeFiles/my_traject.dir/build.make CMakeFiles/my_traject.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/liao/work/rpi_zero_w/my_traject/CMakeFiles  1
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/exbot/rpi_z/trajectory_test/CMakeFiles  1
 	@echo "Built target my_traject"
 .PHONY : CMakeFiles/my_traject.dir/all
 
@@ -69,9 +69,9 @@ all: CMakeFiles/my_traject.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/my_traject.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liao/work/rpi_zero_w/my_traject/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/exbot/rpi_z/trajectory_test/CMakeFiles 1
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/my_traject.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liao/work/rpi_zero_w/my_traject/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/exbot/rpi_z/trajectory_test/CMakeFiles 0
 .PHONY : CMakeFiles/my_traject.dir/rule
 
 # Convenience name for target.

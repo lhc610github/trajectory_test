@@ -10,29 +10,43 @@
 class my_traject
 {
     public:
-        my_traject();
+        my_traject(int temp_order, int temp_m);
         ~my_traject();
         void init(int temp_order, int temp_m);
-        static int order;
-        static int m;
-        float c_A_res[4*m*(order+1)][4*m*(order+1)];
         void computeA(float mu_r, float mu_psi, int k_r, int k_psi, float *t);
+        void print_A();
+    private:
+        int order;
+        int m;
+        int A_col_row;
+        float ** c_A_res;
 };
 
 my_traject::
-my_traject()
+my_traject(int temp_order,int temp_m)
 {
+    init(temp_order,temp_m);
+    c_A_res = new float *[A_col_row];
+    for (int i=0 ; i < A_col_row ; i++)
+    {
+        c_A_res[i] = new float[A_col_row];
+    }
+    std::cout<<A_col_row<<std::endl;
 }
 
 my_traject::
 ~my_traject()
-{}
+{
+    delete c_A_res;
+}
+
 
 void
 my_traject::init(int temp_order, int temp_m)
 {
     order = temp_order;
     m = temp_m;
+    A_col_row = 4*temp_m*(temp_order+1);
 }
 
 void
@@ -78,7 +92,7 @@ my_traject::computeA(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
     //{
         //A_res[i] = new float[4*m*(order+1)];
     //}
-     float A_res[4*m*(order+1)][4*m*(order+1)];
+     float A_res[A_col_row][A_col_row];
     printf("size A : %d \n",(int)sizeof(A_res));
     //A_res = (float**)calloc(4*m*(order+1),sizeof(float)*4*m*(order+1));
     //float A_res[4*m*(order+1)][4*m*(order+1)];
@@ -177,9 +191,9 @@ my_traject::computeA(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
                     if ( k == j )
                     {
                 //printf("bbbb  j %d\n",j);
-                printf("cccc  bug %d\n",base_count_i + base_count_state + j);
+                //printf("cccc  bug %d\n",base_count_i + base_count_state + j);
                         A_res[base_count_i + base_count_state + j][base_count_i + base_count_state + k] = A[i][count_state][j][k] * mu_x;
-                printf("bbbb  j %d\n",j);
+                //printf("bbbb  j %d\n",j);
                     }
                     else
                     {
@@ -192,7 +206,13 @@ my_traject::computeA(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
         }
     }
 
-    c_A_res = A_res;
+    c_A_res = (float **)A_res;
+}
+
+void
+my_traject::print_A()
+{
+    std::cout<<c_A_res[2][2]<<std::endl;
 }
 
 
@@ -205,11 +225,11 @@ main()
    float mu_psi = 1;
    int k_r = 4;
    int k_psi = 2;
-   float** A;
+   //float** A;
    float t_index[6] = {0,2,4,6,8,10};
-   my_traject C_A;
-   C_A.init(order,m);
+   my_traject C_A(order,m);
+   //C_A.init(order,m);
    C_A.computeA(mu_r, mu_psi,  k_r, k_psi, t_index);
-   printf("  %f \n ",C_A.c_A_res[7][3]);
+   C_A.print_A();
    return 0;
 }

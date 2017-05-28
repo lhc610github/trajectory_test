@@ -42,10 +42,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/liao/work/rpi_zero_w/my_traject
+CMAKE_SOURCE_DIR = /home/exbot/rpi_z/trajectory_test
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/liao/work/rpi_zero_w/my_traject
+CMAKE_BINARY_DIR = /home/exbot/rpi_z/trajectory_test
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -72,9 +72,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liao/work/rpi_zero_w/my_traject/CMakeFiles /home/liao/work/rpi_zero_w/my_traject/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/exbot/rpi_z/trajectory_test/CMakeFiles /home/exbot/rpi_z/trajectory_test/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liao/work/rpi_zero_w/my_traject/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/exbot/rpi_z/trajectory_test/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -145,8 +145,8 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... rebuild_cache"
 	@echo "... my_traject"
+	@echo "... rebuild_cache"
 	@echo "... my_traject.o"
 	@echo "... my_traject.i"
 	@echo "... my_traject.s"

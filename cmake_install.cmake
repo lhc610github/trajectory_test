@@ -1,4 +1,4 @@
-# Install script for directory: /home/liao/work/rpi_zero_w/my_traject
+# Install script for directory: /home/exbot/rpi_z/trajectory_test
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/liao/work/rpi_zero_w/my_traject/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/exbot/rpi_z/trajectory_test/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

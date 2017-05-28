@@ -1,1 +1,1 @@
-/home/liao/work/rpi_zero_w/my_traject/CMakeFiles/my_traject.dir
+/home/exbot/rpi_z/trajectory_test/CMakeFiles/my_traject.dir

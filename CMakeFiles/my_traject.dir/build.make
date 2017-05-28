@@ -35,10 +35,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/liao/work/rpi_zero_w/my_traject
+CMAKE_SOURCE_DIR = /home/exbot/rpi_z/trajectory_test
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/liao/work/rpi_zero_w/my_traject
+CMAKE_BINARY_DIR = /home/exbot/rpi_z/trajectory_test
 
 # Include any dependencies generated for this target.
 include CMakeFiles/my_traject.dir/depend.make
@@ -51,17 +51,17 @@ include CMakeFiles/my_traject.dir/flags.make
 
 CMakeFiles/my_traject.dir/my_traject.cpp.o: CMakeFiles/my_traject.dir/flags.make
 CMakeFiles/my_traject.dir/my_traject.cpp.o: my_traject.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/liao/work/rpi_zero_w/my_traject/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/exbot/rpi_z/trajectory_test/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/my_traject.dir/my_traject.cpp.o"
-	/usr/bin/g++-4.9   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/my_traject.dir/my_traject.cpp.o -c /home/liao/work/rpi_zero_w/my_traject/my_traject.cpp
+	/usr/bin/g++-4.9   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/my_traject.dir/my_traject.cpp.o -c /home/exbot/rpi_z/trajectory_test/my_traject.cpp
 
 CMakeFiles/my_traject.dir/my_traject.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/my_traject.dir/my_traject.cpp.i"
-	/usr/bin/g++-4.9  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/liao/work/rpi_zero_w/my_traject/my_traject.cpp > CMakeFiles/my_traject.dir/my_traject.cpp.i
+	/usr/bin/g++-4.9  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/exbot/rpi_z/trajectory_test/my_traject.cpp > CMakeFiles/my_traject.dir/my_traject.cpp.i
 
 CMakeFiles/my_traject.dir/my_traject.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/my_traject.dir/my_traject.cpp.s"
-	/usr/bin/g++-4.9  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/liao/work/rpi_zero_w/my_traject/my_traject.cpp -o CMakeFiles/my_traject.dir/my_traject.cpp.s
+	/usr/bin/g++-4.9  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/exbot/rpi_z/trajectory_test/my_traject.cpp -o CMakeFiles/my_traject.dir/my_traject.cpp.s
 
 CMakeFiles/my_traject.dir/my_traject.cpp.o.requires:
 .PHONY : CMakeFiles/my_traject.dir/my_traject.cpp.o.requires
@@ -81,16 +81,18 @@ my_traject_EXTERNAL_OBJECTS =
 
 my_traject: CMakeFiles/my_traject.dir/my_traject.cpp.o
 my_traject: CMakeFiles/my_traject.dir/build.make
-my_traject: /usr/lib/x86_64-linux-gnu/libmpfr.so
-my_traject: /usr/lib/x86_64-linux-gnu/libgmp.so
+my_traject: /usr/lib/i386-linux-gnu/libmpfr.so
+my_traject: /usr/lib/i386-linux-gnu/libgmp.so
+my_traject: /usr/lib/libCGAL_Core.so
 my_traject: /usr/lib/libCGAL.so
-my_traject: /usr/lib/x86_64-linux-gnu/libboost_thread.so
-my_traject: /usr/lib/x86_64-linux-gnu/libboost_system.so
-my_traject: /usr/lib/x86_64-linux-gnu/libpthread.so
+my_traject: /usr/lib/i386-linux-gnu/libboost_thread.so
+my_traject: /usr/lib/i386-linux-gnu/libboost_system.so
+my_traject: /usr/lib/i386-linux-gnu/libpthread.so
+my_traject: /usr/lib/libCGAL_Core.so
 my_traject: /usr/lib/libCGAL.so
-my_traject: /usr/lib/x86_64-linux-gnu/libboost_thread.so
-my_traject: /usr/lib/x86_64-linux-gnu/libboost_system.so
-my_traject: /usr/lib/x86_64-linux-gnu/libpthread.so
+my_traject: /usr/lib/i386-linux-gnu/libboost_thread.so
+my_traject: /usr/lib/i386-linux-gnu/libboost_system.so
+my_traject: /usr/lib/i386-linux-gnu/libpthread.so
 my_traject: CMakeFiles/my_traject.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX executable my_traject"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/my_traject.dir/link.txt --verbose=$(VERBOSE)
@@ -107,6 +109,6 @@ CMakeFiles/my_traject.dir/clean:
 .PHONY : CMakeFiles/my_traject.dir/clean
 
 CMakeFiles/my_traject.dir/depend:
-	cd /home/liao/work/rpi_zero_w/my_traject && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/liao/work/rpi_zero_w/my_traject /home/liao/work/rpi_zero_w/my_traject /home/liao/work/rpi_zero_w/my_traject /home/liao/work/rpi_zero_w/my_traject /home/liao/work/rpi_zero_w/my_traject/CMakeFiles/my_traject.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/exbot/rpi_z/trajectory_test && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/exbot/rpi_z/trajectory_test /home/exbot/rpi_z/trajectory_test /home/exbot/rpi_z/trajectory_test /home/exbot/rpi_z/trajectory_test /home/exbot/rpi_z/trajectory_test/CMakeFiles/my_traject.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/my_traject.dir/depend
 
