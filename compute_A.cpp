@@ -52,7 +52,8 @@ compute_A::run_compute(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
 
 
     int l_polyn_psi = order - k_psi + 1;
-    int polynomial_psi[l_polyn_psi]; 
+    int *polynomial_psi;
+    polynomial_psi = new int[l_polyn_psi]; 
     for (i = 0; i < l_polyn_psi; i++ )
     {
         for (j = 0; j < k_psi; j++ )
@@ -188,17 +189,14 @@ compute_A::run_compute(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
         }
     }
 
+    delete A;
+    delete polynomial_r;
+    delete polynomial_psi;
 }
 
 void
 compute_A::print_A()
 {
-//    for(int i=0;i < A_col_row;i++)
- //   {
-  //      for(int j=0;j < A_col_row;j++)
-   //         printf("%.1f ",c_A_res[i][j]);
-    //    std::cout<<std::endl;
-    //}
     print_matrix(c_A_res,A_col_row,A_col_row);
 }
 
