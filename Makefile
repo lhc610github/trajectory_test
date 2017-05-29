@@ -102,41 +102,65 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named my_traject
+# Target rules for targets named my_traject_main
 
 # Build rule for target.
-my_traject: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 my_traject
-.PHONY : my_traject
+my_traject_main: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 my_traject_main
+.PHONY : my_traject_main
 
 # fast build rule for target.
-my_traject/fast:
-	$(MAKE) -f CMakeFiles/my_traject.dir/build.make CMakeFiles/my_traject.dir/build
-.PHONY : my_traject/fast
+my_traject_main/fast:
+	$(MAKE) -f CMakeFiles/my_traject_main.dir/build.make CMakeFiles/my_traject_main.dir/build
+.PHONY : my_traject_main/fast
 
-my_traject.o: my_traject.cpp.o
-.PHONY : my_traject.o
+compute_A.o: compute_A.cpp.o
+.PHONY : compute_A.o
 
 # target to build an object file
-my_traject.cpp.o:
-	$(MAKE) -f CMakeFiles/my_traject.dir/build.make CMakeFiles/my_traject.dir/my_traject.cpp.o
-.PHONY : my_traject.cpp.o
+compute_A.cpp.o:
+	$(MAKE) -f CMakeFiles/my_traject_main.dir/build.make CMakeFiles/my_traject_main.dir/compute_A.cpp.o
+.PHONY : compute_A.cpp.o
 
-my_traject.i: my_traject.cpp.i
-.PHONY : my_traject.i
+compute_A.i: compute_A.cpp.i
+.PHONY : compute_A.i
 
 # target to preprocess a source file
-my_traject.cpp.i:
-	$(MAKE) -f CMakeFiles/my_traject.dir/build.make CMakeFiles/my_traject.dir/my_traject.cpp.i
-.PHONY : my_traject.cpp.i
+compute_A.cpp.i:
+	$(MAKE) -f CMakeFiles/my_traject_main.dir/build.make CMakeFiles/my_traject_main.dir/compute_A.cpp.i
+.PHONY : compute_A.cpp.i
 
-my_traject.s: my_traject.cpp.s
-.PHONY : my_traject.s
+compute_A.s: compute_A.cpp.s
+.PHONY : compute_A.s
 
 # target to generate assembly for a file
-my_traject.cpp.s:
-	$(MAKE) -f CMakeFiles/my_traject.dir/build.make CMakeFiles/my_traject.dir/my_traject.cpp.s
-.PHONY : my_traject.cpp.s
+compute_A.cpp.s:
+	$(MAKE) -f CMakeFiles/my_traject_main.dir/build.make CMakeFiles/my_traject_main.dir/compute_A.cpp.s
+.PHONY : compute_A.cpp.s
+
+my_traject_main.o: my_traject_main.cpp.o
+.PHONY : my_traject_main.o
+
+# target to build an object file
+my_traject_main.cpp.o:
+	$(MAKE) -f CMakeFiles/my_traject_main.dir/build.make CMakeFiles/my_traject_main.dir/my_traject_main.cpp.o
+.PHONY : my_traject_main.cpp.o
+
+my_traject_main.i: my_traject_main.cpp.i
+.PHONY : my_traject_main.i
+
+# target to preprocess a source file
+my_traject_main.cpp.i:
+	$(MAKE) -f CMakeFiles/my_traject_main.dir/build.make CMakeFiles/my_traject_main.dir/my_traject_main.cpp.i
+.PHONY : my_traject_main.cpp.i
+
+my_traject_main.s: my_traject_main.cpp.s
+.PHONY : my_traject_main.s
+
+# target to generate assembly for a file
+my_traject_main.cpp.s:
+	$(MAKE) -f CMakeFiles/my_traject_main.dir/build.make CMakeFiles/my_traject_main.dir/my_traject_main.cpp.s
+.PHONY : my_traject_main.cpp.s
 
 # Help Target
 help:
@@ -145,11 +169,14 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... my_traject"
 	@echo "... rebuild_cache"
-	@echo "... my_traject.o"
-	@echo "... my_traject.i"
-	@echo "... my_traject.s"
+	@echo "... my_traject_main"
+	@echo "... compute_A.o"
+	@echo "... compute_A.i"
+	@echo "... compute_A.s"
+	@echo "... my_traject_main.o"
+	@echo "... my_traject_main.i"
+	@echo "... my_traject_main.s"
 .PHONY : help
 
 

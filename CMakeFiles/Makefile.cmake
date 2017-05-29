@@ -13,7 +13,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeLists.txt"
   "/usr/lib/CGAL/CGALConfig.cmake"
   "/usr/lib/CGAL/CGAL_Common.cmake"
-  "/usr/lib/CGAL/CGAL_CreateSingleSourceCGALProgram.cmake"
   "/usr/lib/CGAL/CGAL_GeneratorSpecificSettings.cmake"
   "/usr/lib/CGAL/CGAL_Macros.cmake"
   "/usr/lib/CGAL/CGAL_SetupFlags.cmake"
@@ -26,10 +25,10 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.2/Modules/CMakeGenericSystem.cmake"
   "/usr/share/cmake-3.2/Modules/CMakeSystemSpecificInformation.cmake"
   "/usr/share/cmake-3.2/Modules/CMakeSystemSpecificInitialize.cmake"
-  "/usr/share/cmake-3.2/Modules/CMakeUnixFindMake.cmake"
   "/usr/share/cmake-3.2/Modules/Compiler/GNU-C.cmake"
   "/usr/share/cmake-3.2/Modules/Compiler/GNU-CXX.cmake"
   "/usr/share/cmake-3.2/Modules/Compiler/GNU.cmake"
+  "/usr/share/cmake-3.2/Modules/FindBoost.cmake"
   "/usr/share/cmake-3.2/Modules/Platform/Linux-GNU-C.cmake"
   "/usr/share/cmake-3.2/Modules/Platform/Linux-GNU-CXX.cmake"
   "/usr/share/cmake-3.2/Modules/Platform/Linux-GNU.cmake"
@@ -50,5 +49,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/my_traject.dir/DependInfo.cmake"
+  "CMakeFiles/my_traject_main.dir/DependInfo.cmake"
   )

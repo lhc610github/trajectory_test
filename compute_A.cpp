@@ -1,29 +1,6 @@
-//#include <CGAL/basic.h>
-//#include <CGAL/QP_models.h>
-//#include <CGAL/QP_functions.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <string.h>
-#include <iostream>
-#include <list>
-class my_traject
-{
-    public:
-        my_traject(int temp_order, int temp_m);
-        ~my_traject();
-        void computeA(float mu_r, float mu_psi, int k_r, int k_psi, float *t);
-        void print_A();
-    private:
-        int order;
-        int m;
-        int A_col_row;
-        float ** c_A_res;
-        void init(int temp_order, int temp_m);
-};
-
-my_traject::
-my_traject(int temp_order,int temp_m)
+#include "compute_A.h"
+compute_A::
+compute_A(int temp_order,int temp_m)
 {
     init(temp_order,temp_m);
     c_A_res = new float *[A_col_row];
@@ -34,15 +11,15 @@ my_traject(int temp_order,int temp_m)
     std::cout<<A_col_row<<std::endl;
 }
 
-my_traject::
-~my_traject()
+compute_A::
+~compute_A()
 {
     delete c_A_res;
 }
 
 
 void
-my_traject::init(int temp_order, int temp_m)
+compute_A::init(int temp_order, int temp_m)
 {
     order = temp_order;
     m = temp_m;
@@ -50,20 +27,27 @@ my_traject::init(int temp_order, int temp_m)
 }
 
 void
-my_traject::computeA(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
+compute_A::run_compute(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
 {
 
 
     int l_polyn_r = order - k_r + 1;
-    int polynomial_r[l_polyn_r]; 
+    //int polynomial_r[l_polyn_r]; 
+    int * polynomial_r;
+    polynomial_r = new int[l_polyn_r];
     int i,j,k;
     for (i = 0; i < l_polyn_r; i++ )
     {
         for (j = 0; j < k_r; j++ )
         {
-            polynomial_r[i] *= order - i - j;
+            if (j == 0)
+                polynomial_r[i] = (order - i - j);
+            else
+                polynomial_r[i] *= (order - i - j);
+            //printf("%d \n",polynomial_r[i]);
         }
     }
+    print_vector(polynomial_r,l_polyn_r);
 
 
 
@@ -73,12 +57,31 @@ my_traject::computeA(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
     {
         for (j = 0; j < k_psi; j++ )
         {
-            polynomial_psi[i] *= order - i - j;
+            if (j == 0)
+                polynomial_psi[i] = order - i - j;
+            else
+                polynomial_psi[i] *= order - i - j;
         }
     }
+    print_vector(polynomial_psi,l_polyn_psi);
 
-    float A[m][4][order+1][order+1];
-    memset(A,0,sizeof(A));
+    //float A[m][4][order+1][order+1];
+    float ****A;
+    A = new float ***[m];
+    for (i = 0; i<m ;i++)
+    {
+        A[i] = new float **[4];
+        for (j = 0; j < 4; j++)
+        {
+            A[i][j] = new float *[order+1];
+            for (k=0; k<(order+1); k++)
+            {
+                A[i][j][k] = new float[order+1];
+                memset(&(*A[i][j][k]),0,sizeof(float)*(order+1));
+            }
+        }
+    }
+    //memset(A,0,sizeof(A));
     //float A_res[A_col_row][A_col_row];
     //printf("size A : %d \n",(int)sizeof(A_res));
     for (i = 0; i < A_col_row ; i++)
@@ -165,6 +168,8 @@ my_traject::computeA(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
                 mu_x = mu_r;
             }
             base_count_state = count_state*(order+1);
+            printf("step: %d  state: %d \n",i+1,count_state+1);
+            print_matrix(A[i][count_state],(order+1),(order+1));
             for ( j = 0 ; j < (order+1) ; j++ )
             {
                 for (k = 0 ; k <= j ; k++)
@@ -186,29 +191,38 @@ my_traject::computeA(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
 }
 
 void
-my_traject::print_A()
+compute_A::print_A()
 {
-    for(int i=0;i < A_col_row;i++)
-    {
-        for(int j=0;j < A_col_row;j++)
-            printf("%.1f ",c_A_res[i][j]);
-        std::cout<<std::endl;
-    }
+//    for(int i=0;i < A_col_row;i++)
+ //   {
+  //      for(int j=0;j < A_col_row;j++)
+   //         printf("%.1f ",c_A_res[i][j]);
+    //    std::cout<<std::endl;
+    //}
+    print_matrix(c_A_res,A_col_row,A_col_row);
 }
 
-
-int 
-main()
+void
+compute_A::print_vector(int *sth, int length)
 {
-   int order = 6;
-   int m = 5;
-   float mu_r = 1;
-   float mu_psi = 1;
-   int k_r = 4;
-   int k_psi = 2;
-   float t_index[6] = {0,2,4,6,8,10};
-   my_traject C_A(order,m);
-   C_A.computeA(mu_r, mu_psi,  k_r, k_psi, t_index);
-   C_A.print_A();
-   return 0;
+    printf("vector: ");
+    for (int i=0; i<length ;i++)
+        printf("%d ",sth[i]);
+    printf("\n");
+}
+
+void 
+compute_A::print_matrix(float **sth, int row, int col)
+{
+    printf("matrix: \n");
+    for (int i=0; i<row ;i++)
+    {
+        printf("| ");
+        for (int j=0; j<col ;j++)
+        {
+            printf("%.2f ",sth[i][j]);
+        }
+        printf("|\n");
+    }
+    printf("\n");
 }
