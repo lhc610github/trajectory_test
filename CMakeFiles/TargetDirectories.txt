@@ -1,1 +1,0 @@
-/home/exbot/rpi_z/trajectory_test/CMakeFiles/my_traject_main.dir
