@@ -54,7 +54,7 @@ endif()
 # Creating entries for target: my_traject_main
 # ############################
 
-add_executable( my_traject_main  compute_A.cpp my_traject_main.cpp )
+add_executable( my_traject_main  compute_A.cpp compute_Constraint.cpp my_traject_main.cpp )
 
 add_to_cached_list( CGAL_EXECUTABLE_TARGETS my_traject_main )
 

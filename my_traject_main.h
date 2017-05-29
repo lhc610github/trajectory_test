@@ -5,5 +5,6 @@
 #include <iostream>
 #include <list>
 #include "compute_A.h"
+#include "compute_Constraint.h"
 
 int main(int argc, char **argv);

@@ -1,5 +1,6 @@
 .gitignore
 CMakeCache.txt
+CMakeLists.txt.bak
 CMakeFiles
 CMakeScripts
 Testing
