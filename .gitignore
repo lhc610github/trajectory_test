@@ -1,5 +1,4 @@
 .gitignore
-**
 CMakeCache.txt
 CMakeFiles
 CMakeScripts
