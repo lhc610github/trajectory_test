@@ -23,10 +23,18 @@ compute_Constraint(int temp_order, int temp_n, int temp_m)
 compute_Constraint::
 ~compute_Constraint()
 {
-    delete keyframe;
-    delete t;
-    delete C1;
-    delete b1;
+    for (int i=0 ;i < m+1 ;i++)
+    {
+        delete[] keyframe[i];
+    }
+    delete[] keyframe;
+    delete[] t;
+    for (int i=0 ;i < 2*m*n ;i++)
+    {
+        delete[] C1[i];
+    }
+    delete[] C1;
+    delete[] b1;
 }
 bool
 compute_Constraint::
@@ -120,7 +128,7 @@ compute_waypoint_C(float ** temp_keyframe,float * temp_t) //keyframe m*4 matrix
             }
         }
     }
-    delete waypoint;
-    delete values;
+    delete[] waypoint;
+    delete[] values;
     return true;
 }

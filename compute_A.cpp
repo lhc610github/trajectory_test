@@ -6,15 +6,19 @@ compute_A(int temp_order,int temp_m)
     c_A_res = new float *[A_col_row];
     for (int i=0 ; i < A_col_row ; i++)
     {
-        c_A_res[i] = new float[A_col_row];
+        c_A_res[i] = new float [A_col_row];
+        memset(c_A_res[i],0,sizeof(float)*A_col_row);
     }
-    std::cout<<A_col_row<<std::endl;
 }
 
 compute_A::
 ~compute_A()
 {
-    delete c_A_res;
+    //for (int i=0 ; i < A_col_row ; i++)
+    //{
+        //delete c_A_res[i];
+    //}
+    delete[] c_A_res;
 }
 
 
@@ -32,7 +36,6 @@ compute_A::run_compute(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
 
 
     int l_polyn_r = order - k_r + 1;
-    //int polynomial_r[l_polyn_r]; 
     int * polynomial_r;
     polynomial_r = new int[l_polyn_r];
     int i,j,k;
@@ -44,7 +47,6 @@ compute_A::run_compute(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
                 polynomial_r[i] = (order - i - j);
             else
                 polynomial_r[i] *= (order - i - j);
-            //printf("%d \n",polynomial_r[i]);
         }
     }
     print_vector(polynomial_r,l_polyn_r);
@@ -66,7 +68,6 @@ compute_A::run_compute(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
     }
     print_vector(polynomial_psi,l_polyn_psi);
 
-    //float A[m][4][order+1][order+1];
     float ****A;
     A = new float ***[m];
     for (i = 0; i<m ;i++)
@@ -82,11 +83,6 @@ compute_A::run_compute(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
             }
         }
     }
-    //memset(A,0,sizeof(A));
-    //float A_res[A_col_row][A_col_row];
-    //printf("size A : %d \n",(int)sizeof(A_res));
-    for (i = 0; i < A_col_row ; i++)
-    memset(&(*c_A_res[i]),0,sizeof(float)*A_col_row);
 
     int order_t_r,order_t_psi;
     int count_state;
@@ -189,9 +185,21 @@ compute_A::run_compute(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
         }
     }
 
-    delete A;
-    delete polynomial_r;
-    delete polynomial_psi;
+    for (i = 0; i<m ;i++)
+    {
+        for (j = 0; j < 4; j++)
+        {
+            for (k=0; k<(order+1); k++)
+            {
+               delete[] A[i][j][k];
+            }
+            delete[] A[i][j];
+        }
+        delete[] A[i];
+    }
+    delete[] A;
+    delete[] polynomial_r;
+    delete[] polynomial_psi;
 }
 
 void

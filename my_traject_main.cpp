@@ -23,5 +23,10 @@ main(int argc, char **argv)
    compute_Constraint C_C(order,n,m);
    C_C.compute_waypoint_C(keyframe,t_index);
    printf("done\n");
+   for (int i=0;i <6;i++)
+   {
+       delete[] keyframe[i];
+   }
+   delete[] keyframe;
    return 0;
 }

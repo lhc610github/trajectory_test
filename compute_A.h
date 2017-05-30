@@ -15,11 +15,11 @@ class compute_A
         void print_A();
         void print_vector(int *sth, int length);
         void print_matrix(float **sth, int row, int col);
+        void init(int temp_order, int temp_m);
     private:
         int order;
         int m;
         int A_col_row;
         float ** c_A_res;
-        void init(int temp_order, int temp_m);
 };
 #endif
