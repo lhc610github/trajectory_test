@@ -15,12 +15,16 @@ main(int argc, char **argv)
    for(int i=0;i<6;i++)
    {
        keyframe[i] = new float[4];
-       memset(keyframe[i],1,sizeof(float)*4);
+       memset(keyframe[i],0,sizeof(float)*4);
    }
+   keyframe[3][0] = 1;
+   keyframe[3][1] = 2;
+   keyframe[3][2] = 3;
+   keyframe[3][3] = 4;
    compute_A C_A(order,m);
    C_A.run_compute(mu_r, mu_psi,  k_r, k_psi, t_index);
    //C_A.print_A();
-   compute_Constraint C_C(order,n,m);
+   compute_Constraint C_C(order,n,m,k_r,k_psi);
    C_C.compute_waypoint_C(keyframe,t_index);
    printf("done\n");
    for (int i=0;i <6;i++)

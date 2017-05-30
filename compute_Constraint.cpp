@@ -1,10 +1,13 @@
 #include "compute_Constraint.h"
 compute_Constraint::
-compute_Constraint(int temp_order, int temp_n, int temp_m)
+compute_Constraint(int temp_order, int temp_n, int temp_m, int temp_kr, int temp_kpsi)
 {
     order = temp_order;
     n = temp_n;
     m = temp_m;
+    k_r = temp_kr;
+    k_psi = temp_kpsi;
+
     keyframe = new float *[m+1];
     for (int i=0 ;i < m+1 ;i++)
     {
@@ -18,6 +21,15 @@ compute_Constraint(int temp_order, int temp_n, int temp_m)
         memset(&(*C1[i]),0,sizeof(float)*(n*(order+1)*m));
     }
     b1 = new float[2*m*n];
+
+    int num = 2*m*(n-1)*k_r;
+    C2 = new float *[num];
+    for (int i=0 ;i < num ;i++)
+    {
+        C2[i] = new float[n*(order+1)*m];
+        memset(&(*C2[i]),0,sizeof(float)*(n*(order+1)*m));
+    }
+    b2 = new float[num];
 }
 
 compute_Constraint::
@@ -56,6 +68,8 @@ compute_waypoint_C(float ** temp_keyframe,float * temp_t) //keyframe m*4 matrix
     for (i=0 ;i < m ;i++)
     {
         waypoint = keyframe[i];
+        printf("waypoint ");
+        print_Vector(waypoint,4);
         if(i == 0) // Initial and  Final Position
         {   // Initial
             //memset(values,0,sizeof(float)*(order+1));
@@ -128,7 +142,52 @@ compute_waypoint_C(float ** temp_keyframe,float * temp_t) //keyframe m*4 matrix
             }
         }
     }
+    printf("C1 ");
+    print_Matrix(C1,2*m*n,m*(order+1)*n);
+    printf("b1 ");
+    print_Vector(b1,2*m*n);
     delete[] waypoint;
     delete[] values;
     return true;
+}
+
+bool
+compute_Constraint::
+compute_pos_D_C(float temp_eps)
+{
+    int num = 2*m*(n-1)*k_r;
+    for (int i=0 ;i < num ;i++)
+    {
+        b2[i] = temp_eps;
+    }
+    return true;
+}
+
+void
+compute_Constraint::
+print_Matrix(float **sth,int row,int col)
+{
+    printf("Matrix:\n");
+    for(int i=0 ;i < row; i++)
+    {
+        printf("| ");
+        for(int j=0 ;j < col; j++)
+        {
+            printf("%.2f ",sth[i][j]);
+        }
+        printf("|\n");
+    }
+}
+
+void
+compute_Constraint::
+print_Vector(float *sth,int length)
+{
+    printf("Vector:\n");
+    printf("| ");
+    for(int i=0 ;i < length; i++)
+    {
+        printf("%.2f ",sth[i]);
+    }
+    printf("|\n");
 }
