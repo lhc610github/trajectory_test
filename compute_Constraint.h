@@ -20,8 +20,8 @@ class compute_Constraint
         int order;
         int m;
         int n;
-        float k_r;
-        float k_psi;
+        int k_r;
+        int k_psi;
         float **keyframe; //new in compute_waypoint_C
         float *t; //new in compute_waypoint_C
         int n_intermediate;

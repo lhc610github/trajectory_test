@@ -15,7 +15,7 @@ main(int argc, char **argv)
    for(int i=0;i<6;i++)
    {
        keyframe[i] = new float[4];
-       memset(keyframe[i],0,sizeof(float)*4);
+       memset(&keyframe[i][0],0,sizeof(float)*4);
    }
    keyframe[3][0] = 1;
    keyframe[3][1] = 2;

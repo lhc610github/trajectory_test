@@ -7,7 +7,7 @@ compute_A(int temp_order,int temp_m)
     for (int i=0 ; i < A_col_row ; i++)
     {
         c_A_res[i] = new float [A_col_row];
-        memset(c_A_res[i],0,sizeof(float)*A_col_row);
+        memset(&c_A_res[i][0],0,sizeof(float)*A_col_row);
     }
 }
 

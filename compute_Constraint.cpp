@@ -160,6 +160,18 @@ compute_pos_D_C(float temp_eps)
     {
         b2[i] = temp_eps;
     }
+    int i,j,k;
+    float *** C_r;
+    C_r = new float **[m];
+    for (i = 0;i < m;i++)
+    {
+        C_r[i] = new float *[k_r];
+        for (j=0;j<m;j++)
+        {
+            C_r[i][j] = new float [3];
+            memset(&C_r[i][j][0],0,sizeof(float)*3);
+        }
+    }
     return true;
 }
 
