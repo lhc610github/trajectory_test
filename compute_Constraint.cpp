@@ -48,10 +48,10 @@ compute_Constraint::
     delete[] C1;
     delete[] b1;
     int num = 2*m*(n-1)*k_r;
-    //for (int i=0 ;i < num ;i++)
-    //{
-        //delete[] C2[i];
-    //}
+    for (int i=0 ;i < num ;i++)
+    {
+        delete[] C2[i];
+    }
     delete[] C2;
     delete[] b2;
 }
@@ -174,7 +174,7 @@ compute_pos_D_C(float temp_eps)
         for (int i = 0;i < m;i++)
         {
             C_r[i] = new float *[k_r];
-            for (int j=0;j<m;j++)
+            for (int j=0;j<k_r;j++)
             {
                 C_r[i][j] = new float [3];
                 memset(&C_r[i][j][0],0,sizeof(float)*3);
@@ -233,10 +233,15 @@ compute_pos_D_C(float temp_eps)
                 // Initial
                 for (int j = 0;j < order+1;j++)
                 {
-                    if(j==order)
+                    int tempcoeffs = (order-j);
+                    for (int time_coeffs = 1; time_coeffs<=k; time_coeffs++)
+                    {
+                        tempcoeffs *= (order-j-time_coeffs);
+                    }
+                    if(j+k>=order)
                         values[j] = 0;
                     else
-                        values[j] = (order-j)*pow(t[i],(order-j-1));
+                        values[j] = tempcoeffs*pow(t[i],(order-j-k));
                 }
                 
                 for (int l_con = 0;l_con < (n-1);l_con++)
@@ -264,10 +269,15 @@ compute_pos_D_C(float temp_eps)
                 // Final
                 for (int j = 0;j < order+1;j++)
                 {
-                    if(j==order)
+                    int tempcoeffs = (order-j);
+                    for (int time_coeffs = 1; time_coeffs<=k; time_coeffs++)
+                    {
+                        tempcoeffs *= (order-j-time_coeffs);
+                    }
+                    if(j+k>=order)
                         values[j] = 0;
                     else
-                        values[j] = (order-j)*pow(t[m],(order-j-1));
+                        values[j] = tempcoeffs*pow(t[m],(order-j-k));
                 }
                 for (int l_con = 0;l_con < (n-1);l_con++)
                 {
@@ -285,10 +295,15 @@ compute_pos_D_C(float temp_eps)
             { // Elsewhere
                 for (int j = 0;j < order+1;j++)
                 {
-                    if(j==order)
+                    int tempcoeffs = (order-j);
+                    for (int time_coeffs = 1; time_coeffs<=k; time_coeffs++)
+                    {
+                        tempcoeffs *= (order-j-time_coeffs);
+                    }
+                    if(j+k>=order)
                         values[j] = 0;
                     else
-                        values[j] = (order-j)*pow(t[i],(order-j-1));
+                        values[j] = tempcoeffs*pow(t[i],(order-j-k));
                 }
 
                 for (int l_con = 0;l_con < (n-1);l_con ++)
@@ -325,7 +340,7 @@ compute_pos_D_C(float temp_eps)
 
         for (int i = 0;i < m;i++)
         {
-            for (int j=0;j<m;j++)
+            for (int j=0;j < k_r;j++)
             {
                 delete[] C_r[i][j];
             }
