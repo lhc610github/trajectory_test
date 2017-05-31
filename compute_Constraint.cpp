@@ -47,7 +47,7 @@ compute_Constraint::
     }
     delete[] C1;
     delete[] b1;
-    //int num = 2*m*(n-1)*k_r;
+    int num = 2*m*(n-1)*k_r;
     //for (int i=0 ;i < num ;i++)
     //{
         //delete[] C2[i];
@@ -167,14 +167,14 @@ compute_pos_D_C(float temp_eps)
     {
         b2[i] = temp_eps;
     }
-    int i,j,k;
+    //int i,j,k;
     // constraintData.m
         float *** C_r; // constraintData_r
         C_r = new float **[m];
-        for (i = 0;i < m;i++)
+        for (int i = 0;i < m;i++)
         {
             C_r[i] = new float *[k_r];
-            for (j=0;j<m;j++)
+            for (int j=0;j<m;j++)
             {
                 C_r[i][j] = new float [3];
                 memset(&C_r[i][j][0],0,sizeof(float)*3);
@@ -183,11 +183,11 @@ compute_pos_D_C(float temp_eps)
         //velocity
         if(k_r >= 1)
         {
-            for (i = 0;i < 3;i ++)
+            for (int i = 0;i < 3;i ++)
             {
                 C_r[0][0][i] = 0; //At starting position
             }
-            for (i = 1;i < m;i ++)
+            for (int i = 1;i < m;i ++)
             {
                 C_r[i][0][0] = temp_eps; // x,y velocities
                 C_r[i][0][1] = temp_eps;
@@ -198,7 +198,7 @@ compute_pos_D_C(float temp_eps)
         if(k_r >= 2)
         {
                 C_r[0][1][2] = 0; //At starting position
-            for (i = 1;i < m;i ++)
+            for (int i = 1;i < m;i ++)
             {
                 C_r[i][1][0] = temp_eps; // x,y velocities
                 C_r[i][1][1] = temp_eps;
@@ -209,7 +209,7 @@ compute_pos_D_C(float temp_eps)
         //snap
         float ** C_psi; // constraintData_psi
         C_psi = new float *[m];
-        for (i = 0;i < m;i++)
+        for (int i = 0;i < m;i++)
         {
             C_psi[i] = new float [k_psi];
             memset(&C_psi[i][0],0,sizeof(float)*k_psi);
@@ -224,16 +224,19 @@ compute_pos_D_C(float temp_eps)
         //snap
     float values[order+1];
     bool continuity[n-1];
-    for (i = 0;i < m;i++)
+    for (int i = 0;i < m;i++)
     {
-        for (k = 0;k < k_r;k++)
+        for (int k = 0;k < k_r;k++)
         {
-            if(i == 1)
+            if(i == 0)
             {
                 // Initial
-                for (j = 0;j < order+1;j++)
+                for (int j = 0;j < order+1;j++)
                 {
-                    values[j] = (order-j)*pow(t[i],(order-j-1));
+                    if(j==order)
+                        values[j] = 0;
+                    else
+                        values[j] = (order-j)*pow(t[i],(order-j-1));
                 }
                 
                 for (int l_con = 0;l_con < (n-1);l_con++)
@@ -241,7 +244,7 @@ compute_pos_D_C(float temp_eps)
                     continuity[l_con] = (C_r[i][k][l_con] == temp_eps)?true:false;
                     if(continuity[l_con])
                     {
-                        for (j = 0;j < order+1;j++)
+                        for (int j = 0;j < order+1;j++)
                         {
                             C2[l_con+k*(n-1)][i*(order+1)*n + l_con*(order+1)+j] = values[j];
                             C2[l_con+k*(n-1)][(m-1)*(order+1)*n + l_con*(order+1)+j] = -values[j];
@@ -250,7 +253,7 @@ compute_pos_D_C(float temp_eps)
                     }
                     else
                     {
-                        for (j = 0;j < order+1;j++)
+                        for (int j = 0;j < order+1;j++)
                         {
                             C2[l_con+k*(n-1)][i*(order+1)*n + l_con*(order+1)+j] = values[j];
                         }
@@ -259,15 +262,18 @@ compute_pos_D_C(float temp_eps)
                     }
                 }
                 // Final
-                for (j = 0;j < order+1;j++)
+                for (int j = 0;j < order+1;j++)
                 {
-                    values[j] = (order-j)*pow(t[m],(order-j-1));
+                    if(j==order)
+                        values[j] = 0;
+                    else
+                        values[j] = (order-j)*pow(t[m],(order-j-1));
                 }
                 for (int l_con = 0;l_con < (n-1);l_con++)
                 {
                     if(!continuity[l_con])
                     {
-                        for (j = 0;j < order+1;j++)
+                        for (int j = 0;j < order+1;j++)
                         {
                             C2[l_con+k*(n-1)+(n-1)*k_r][(m-1)*(order+1)*n + l_con*(order+1)+j] = values[j];
                         }
@@ -277,9 +283,12 @@ compute_pos_D_C(float temp_eps)
             }
             else
             { // Elsewhere
-                for (j = 0;j < order+1;j++)
+                for (int j = 0;j < order+1;j++)
                 {
-                    values[j] = (order-j)*pow(t[i],(order-j-1));
+                    if(j==order)
+                        values[j] = 0;
+                    else
+                        values[j] = (order-j)*pow(t[i],(order-j-1));
                 }
 
                 for (int l_con = 0;l_con < (n-1);l_con ++)
@@ -287,15 +296,21 @@ compute_pos_D_C(float temp_eps)
                     continuity[l_con] = (C_r[i][k][l_con]==temp_eps)? true:false;
                     if (continuity[l_con])
                     {
-                        C2[l_con + k*(n-1) + 2*i*(n-1)*k_r][(i-1)*(order+1)*n + l_con*(order+1)+j] = values[j];
-                        C2[l_con + k*(n-1) + 2*i*(n-1)*k_r][i*(order+1)*n + l_con*(order+1)+j] = -values[j];
+                        for (int j = 0;j < order+1;j++)
+                        {
+                            C2[l_con + k*(n-1) + 2*i*(n-1)*k_r][(i-1)*(order+1)*n + l_con*(order+1)+j] = values[j];
+                            C2[l_con + k*(n-1) + 2*i*(n-1)*k_r][i*(order+1)*n + l_con*(order+1)+j] = -values[j];
+                        }
                         b2[l_con + k*(n-1) + 2*i*(n-1)*k_r] = 0;
                     }
                     else
                     {
-                        C2[l_con + k*(n-1) + 2*i*(n-1)*k_r][(i-1)*(order+1)*n + l_con*(order+1)+j] = values[j];
+                        for (int j = 0;j < order+1;j++)
+                        {
+                            C2[l_con + k*(n-1) + 2*i*(n-1)*k_r][(i-1)*(order+1)*n + l_con*(order+1)+j] = values[j];
+                            C2[l_con + k*(n-1) + 2*i*(n-1)*k_r + (n-1)*k_r][i*(order+1)*n + l_con*(order+1)+j] = values[j];
+                        }
                         b2[l_con + k*(n-1) + 2*i*(n-1)*k_r] = C_r[i][k][l_con];
-                        C2[l_con + k*(n-1) + 2*i*(n-1)*k_r + (n-1)*k_r][i*(order+1)*n + l_con*(order+1)+j] = values[j];
                         b2[l_con + k*(n-1) + 2*i*(n-1)*k_r + (n-1)*k_r] = C_r[i][k][l_con];
                     }
                     
@@ -303,12 +318,14 @@ compute_pos_D_C(float temp_eps)
             }
         }
     }
+    printf("C2 ");
     print_Matrix(C2,num,n*(order+1)*m);
+    printf("b2 ");
     print_Vector(b2,num);
 
-        for (i = 0;i < m;i++)
+        for (int i = 0;i < m;i++)
         {
-            for (j=0;j<m;j++)
+            for (int j=0;j<m;j++)
             {
                 delete[] C_r[i][j];
             }
@@ -316,7 +333,7 @@ compute_pos_D_C(float temp_eps)
         }
         delete[] C_r;
 
-        for (i = 0;i < m;i++)
+        for (int i = 0;i < m;i++)
         {
             delete[] C_psi[i];
         }
