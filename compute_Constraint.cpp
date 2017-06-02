@@ -186,6 +186,11 @@ compute_pos_D_C(float temp_eps)
             for (int i = 0;i < 3;i ++)
             {
                 C_r[0][0][i] = 0; //At starting position
+                C_r[0][1][i] = 0; //At starting position
+                C_r[0][2][i] = 0; //At starting position
+                C_r[1][2][i] = 0; //At starting position
+                C_r[2][2][i] = 0; //At starting position
+                C_r[3][2][i] = 0; //At starting position
             }
             for (int i = 1;i < m;i ++)
             {
@@ -204,6 +209,14 @@ compute_pos_D_C(float temp_eps)
                 C_r[i][1][1] = temp_eps;
                 C_r[i][1][2] = temp_eps; // z velocities
             }
+        }
+        for (int i =0 ;i <4; i++)
+        {
+            for (int j =0 ;j<3 ;j++)
+            {
+            printf("%.1f  ",C_r[i][j][2]);
+            }
+            printf("\n");
         }
         //jerk
         //snap
@@ -233,16 +246,22 @@ compute_pos_D_C(float temp_eps)
                 // Initial
                 for (int j = 0;j < order+1;j++)
                 {
-                    int tempcoeffs = (order-j);
-                    for (int time_coeffs = 1; time_coeffs<=k; time_coeffs++)
+                    if((j+k+1)>order)
                     {
-                        tempcoeffs *= (order-j-time_coeffs);
-                    }
-                    if(j+k>=order)
                         values[j] = 0;
+                    }
                     else
-                        values[j] = tempcoeffs*pow(t[i],(order-j-k));
+                    {
+                        int tempcoeffs = (order-j);
+                        for (int time_coeffs = 1; time_coeffs<=k; time_coeffs++)
+                        {
+                            tempcoeffs *= (order-j-time_coeffs);
+                        }
+                        values[j] = tempcoeffs*pow(t[i],(order-j-k-1));
+                    }
                 }
+                printf("Values ");
+                print_Vector(values,order+1);
                 
                 for (int l_con = 0;l_con < (n-1);l_con++)
                 {
@@ -251,7 +270,7 @@ compute_pos_D_C(float temp_eps)
                     {
                         for (int j = 0;j < order+1;j++)
                         {
-                            C2[l_con+k*(n-1)][i*(order+1)*n + l_con*(order+1)+j] = values[j];
+                            C2[l_con+k*(n-1)][l_con*(order+1)+j] = values[j];
                             C2[l_con+k*(n-1)][(m-1)*(order+1)*n + l_con*(order+1)+j] = -values[j];
                         }
                         b2[l_con+k*(n-1)] = 0;
@@ -260,7 +279,7 @@ compute_pos_D_C(float temp_eps)
                     {
                         for (int j = 0;j < order+1;j++)
                         {
-                            C2[l_con+k*(n-1)][i*(order+1)*n + l_con*(order+1)+j] = values[j];
+                            C2[l_con+k*(n-1)][l_con*(order+1)+j] = values[j];
                         }
                         b2[l_con+k*(n-1)] = C_r[i][k][l_con];
 
@@ -269,15 +288,19 @@ compute_pos_D_C(float temp_eps)
                 // Final
                 for (int j = 0;j < order+1;j++)
                 {
-                    int tempcoeffs = (order-j);
-                    for (int time_coeffs = 1; time_coeffs<=k; time_coeffs++)
+                    if((j+k+1)>order)
                     {
-                        tempcoeffs *= (order-j-time_coeffs);
-                    }
-                    if(j+k>=order)
                         values[j] = 0;
+                    }
                     else
-                        values[j] = tempcoeffs*pow(t[m],(order-j-k));
+                    {
+                        int tempcoeffs = (order-j);
+                        for (int time_coeffs = 1; time_coeffs<=k; time_coeffs++)
+                        {
+                            tempcoeffs *= (order-j-time_coeffs);
+                        }
+                        values[j] = tempcoeffs*pow(t[i],(order-j-k-1));
+                    }
                 }
                 for (int l_con = 0;l_con < (n-1);l_con++)
                 {
@@ -295,15 +318,19 @@ compute_pos_D_C(float temp_eps)
             { // Elsewhere
                 for (int j = 0;j < order+1;j++)
                 {
-                    int tempcoeffs = (order-j);
-                    for (int time_coeffs = 1; time_coeffs<=k; time_coeffs++)
+                    if((j+k+1)>order)
                     {
-                        tempcoeffs *= (order-j-time_coeffs);
-                    }
-                    if(j+k>=order)
                         values[j] = 0;
+                    }
                     else
-                        values[j] = tempcoeffs*pow(t[i],(order-j-k));
+                    {
+                        int tempcoeffs = (order-j);
+                        for (int time_coeffs = 1; time_coeffs<=k; time_coeffs++)
+                        {
+                            tempcoeffs *= (order-j-time_coeffs);
+                        }
+                        values[j] = tempcoeffs*pow(t[i],(order-j-k-1));
+                    }
                 }
 
                 for (int l_con = 0;l_con < (n-1);l_con ++)

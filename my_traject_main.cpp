@@ -25,7 +25,7 @@ main(int argc, char **argv)
    compute_A C_A(order,m);
    C_A.run_compute(mu_r, mu_psi,  k_r, k_psi, t_index);
    //C_A.print_A();
-   compute_Constraint C_C(order,n,m,k_r,k_psi);
+   compute_Constraint C_C(order,n,m,k_r-1,k_psi);//don't know the reason why k_r-1
    C_C.compute_waypoint_C(keyframe,t_index);
    C_C.compute_pos_D_C(temp_eps);
    printf("done\n");
