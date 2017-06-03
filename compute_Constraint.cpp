@@ -48,10 +48,10 @@ compute_Constraint::
     delete[] C1;
     delete[] b1;
     int num = 2*m*(n-1)*k_r;
-    for (int i=0 ;i < num ;i++)
-    {
-        delete[] C2[i];
-    }
+    //for (int i=0 ;i < num ;i++)
+    //{
+        //delete[] C2[i];
+    //}
     delete[] C2;
     delete[] b2;
 }
@@ -75,8 +75,8 @@ compute_waypoint_C(float ** temp_keyframe,float * temp_t) //keyframe m*4 matrix
     for (i=0 ;i < m ;i++)
     {
         waypoint = keyframe[i];
-        printf("waypoint ");
-        print_Vector(waypoint,4);
+        //printf("waypoint ");
+        //print_Vector(waypoint,4);
         if(i == 0) // Initial and  Final Position
         {   // Initial
             //memset(values,0,sizeof(float)*(order+1));
@@ -149,10 +149,10 @@ compute_waypoint_C(float ** temp_keyframe,float * temp_t) //keyframe m*4 matrix
             }
         }
     }
-    printf("C1 ");
-    print_Matrix(C1,2*m*n,m*(order+1)*n);
-    printf("b1 ");
-    print_Vector(b1,2*m*n);
+    //printf("C1 ");
+    //print_Matrix(C1,2*m*n,m*(order+1)*n);
+    //printf("b1 ");
+    //print_Vector(b1,2*m*n);
     delete[] waypoint;
     delete[] values;
     return true;
@@ -210,14 +210,6 @@ compute_pos_D_C(float temp_eps)
                 C_r[i][1][2] = temp_eps; // z velocities
             }
         }
-        for (int i =0 ;i <4; i++)
-        {
-            for (int j =0 ;j<3 ;j++)
-            {
-            printf("%.1f  ",C_r[i][j][2]);
-            }
-            printf("\n");
-        }
         //jerk
         //snap
         float ** C_psi; // constraintData_psi
@@ -260,8 +252,8 @@ compute_pos_D_C(float temp_eps)
                         values[j] = tempcoeffs*pow(t[i],(order-j-k-1));
                     }
                 }
-                printf("Values ");
-                print_Vector(values,order+1);
+                //printf("Values ");
+                //print_Vector(values,order+1);
                 
                 for (int l_con = 0;l_con < (n-1);l_con++)
                 {
@@ -360,10 +352,10 @@ compute_pos_D_C(float temp_eps)
             }
         }
     }
-    printf("C2 ");
-    print_Matrix(C2,num,n*(order+1)*m);
-    printf("b2 ");
-    print_Vector(b2,num);
+    //printf("C2 ");
+    //print_Matrix(C2,num,n*(order+1)*m);
+    //printf("b2 ");
+    //print_Vector(b2,num);
 
         for (int i = 0;i < m;i++)
         {

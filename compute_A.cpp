@@ -49,7 +49,7 @@ compute_A::run_compute(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
                 polynomial_r[i] *= (order - i - j);
         }
     }
-    print_vector(polynomial_r,l_polyn_r);
+    //print_vector(polynomial_r,l_polyn_r);
 
 
 
@@ -66,7 +66,7 @@ compute_A::run_compute(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
                 polynomial_psi[i] *= order - i - j;
         }
     }
-    print_vector(polynomial_psi,l_polyn_psi);
+    //print_vector(polynomial_psi,l_polyn_psi);
 
     float ****A;
     A = new float ***[m];
@@ -165,8 +165,8 @@ compute_A::run_compute(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
                 mu_x = mu_r;
             }
             base_count_state = count_state*(order+1);
-            printf("step: %d  state: %d \n",i+1,count_state+1);
-            print_matrix(A[i][count_state],(order+1),(order+1));
+            //printf("step: %d  state: %d \n",i+1,count_state+1);
+            //print_matrix(A[i][count_state],(order+1),(order+1));
             for ( j = 0 ; j < (order+1) ; j++ )
             {
                 for (k = 0 ; k <= j ; k++)
