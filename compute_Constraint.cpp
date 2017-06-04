@@ -20,7 +20,11 @@ compute_Constraint(int temp_order, int temp_n, int temp_m, int temp_kr, int temp
         C1[i] = new float[n*(order+1)*m];
         memset(&(*C1[i]),0,sizeof(float)*(n*(order+1)*m));
     }
+    C1_size[0] = 2*m*n;
+    C1_size[1] = n*(order+1)*m;
     b1 = new float[2*m*n];
+    b1_size[0] = 1;
+    b1_size[1] = 2*m*n;
 
     int num = 2*m*(n-1)*k_r;
     C2 = new float *[num];
@@ -29,7 +33,23 @@ compute_Constraint(int temp_order, int temp_n, int temp_m, int temp_kr, int temp
         C2[i] = new float[n*(order+1)*m];
         memset(&(*C2[i]),0,sizeof(float)*(n*(order+1)*m));
     }
+    C2_size[0] = num;
+    C2_size[1] = n*(order+1)*m;
     b2 = new float[num];
+    b2_size[0] = 1;
+    b2_size[1] = num;
+    C_size[0] = C1_size[0] + C2_size[0];
+    C_size[1] = C1_size[1];//same as C2
+    C = new float *[C_size[0]];
+    for (int i=0 ;i < C_size[0] ;i++)
+    {
+        C[i] = new float[C_size[1]];
+        memset(&(*C[i]),0,sizeof(float)*(C_size[1]));
+    }
+    b_size[0] = 1;
+    b_size[1] = b1_size[1] + b2_size[1];
+    b = new float[b_size[1]];
+    memset(&(*b),0,sizeof(float)*(b_size[1]));
 }
 
 compute_Constraint::
@@ -47,13 +67,18 @@ compute_Constraint::
     }
     delete[] C1;
     delete[] b1;
-    int num = 2*m*(n-1)*k_r;
-    //for (int i=0 ;i < num ;i++)
+    //for (int i=0 ;i < C2_size[0] ;i++)
     //{
         //delete[] C2[i];
     //}
     delete[] C2;
     delete[] b2;
+    for (int i=0 ;i < C_size[1];i++)
+    {
+        delete[] C[i];
+    }
+    delete[] C;
+    delete[] b;
 }
 bool
 compute_Constraint::
@@ -402,4 +427,57 @@ print_Vector(float *sth,int length)
         printf("%.2f ",sth[i]);
     }
     printf("|\n");
+}
+
+void
+compute_Constraint::
+combine_Cb()
+{
+// C
+    // C1
+float max_C = -1;
+float min_C = 1;
+float max_b = -1;
+float min_b = 1;
+    printf("start combine\n");
+    for(int i=0; i < C1_size[0]; i++)
+    {
+        for(int j=0; j < C1_size[1]; j++)
+        {
+        C[i][j] = C1[i][j];
+        max_C = (C[i][j] > max_C)? C[i][j]:max_C;
+        min_C = (C[i][j] < min_C)? C[i][j]:min_C;
+        }
+    }
+    // C2
+    for(int i=0; i < C2_size[0]; i++)
+    {
+        for(int j=0; j < C2_size[1]; j++)
+        {
+        int row_C = i+C1_size[0];
+        C[row_C][j] = C2[i][j];
+        max_C = (C[row_C][j] > max_C)? C[row_C][j]:max_C;
+        min_C = (C[row_C][j] < min_C)? C[row_C][j]:min_C;
+        }
+    }
+    printf("C done\n");
+// b
+    // b1
+    for(int i=0; i < b1_size[1]; i++)
+    {
+        b[i] = b1[i];
+        max_b = (b[i] > max_b)? b[i]:max_b;
+        min_b = (b[i] < min_b)? b[i]:min_b;
+    }
+    // b2
+    for(int i=0; i < b2_size[1]; i++)
+    {
+        int row_b = i+b1_size[1];
+        b[row_b] = b2[i];
+        max_b = (b[row_b] > max_b)? b[row_b]:max_b;
+        min_b = (b[row_b] < min_b)? b[row_b]:min_b;
+    }
+    printf("C[%d][%d]  combine done \n in C   max: %.2f  min: %.2f \n",C_size[0],C_size[1],max_C,min_C);
+    printf("b[%d][%d]  combine done \n in b   max: %.2f  min: %.2f \n",b_size[0],b_size[1],max_b,min_b);
+    
 }

@@ -28,6 +28,7 @@ main(int argc, char **argv)
    compute_Constraint C_C(order,n,m,k_r-1,k_psi);//don't know the reason why k_r-1
    C_C.compute_waypoint_C(keyframe,t_index);
    C_C.compute_pos_D_C(temp_eps);
+   //C_C.combine_Cb();
    printf("done\n");
    for (int i=0;i <6;i++)
    {
