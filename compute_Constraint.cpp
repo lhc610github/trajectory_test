@@ -73,10 +73,10 @@ compute_Constraint::
     //}
     delete[] C2;
     delete[] b2;
-    for (int i=0 ;i < C_size[1];i++)
-    {
-        delete[] C[i];
-    }
+    //for (int i=0 ;i < C_size[1];i++)
+    //{
+        //delete[] C[i];
+    //}
     delete[] C;
     delete[] b;
 }
