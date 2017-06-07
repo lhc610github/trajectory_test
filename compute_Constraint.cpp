@@ -38,8 +38,10 @@ compute_Constraint(int temp_order, int temp_n, int temp_m, int temp_kr, int temp
     b2 = new float[num];
     b2_size[0] = 1;
     b2_size[1] = num;
-    C_size[0] = C1_size[0] + C2_size[0];
-    C_size[1] = C1_size[1];//same as C2
+    // C's row is num of variables
+    // C's col is num of equations 
+    C_size[1] = C1_size[0] + C2_size[0];
+    C_size[0] = C1_size[1];//same as C2
     C = new float *[C_size[0]];
     for (int i=0 ;i < C_size[0] ;i++)
     {
@@ -444,9 +446,9 @@ float min_b = 1;
     {
         for(int j=0; j < C1_size[1]; j++)
         {
-        C[i][j] = C1[i][j];
-        max_C = (C[i][j] > max_C)? C[i][j]:max_C;
-        min_C = (C[i][j] < min_C)? C[i][j]:min_C;
+        C[j][i] = C1[i][j];
+        max_C = (C[j][i] > max_C)? C[j][i]:max_C;
+        min_C = (C[j][i] < min_C)? C[j][i]:min_C;
         }
     }
     // C2
@@ -455,9 +457,9 @@ float min_b = 1;
         for(int j=0; j < C2_size[1]; j++)
         {
         int row_C = i+C1_size[0];
-        C[row_C][j] = C2[i][j];
-        max_C = (C[row_C][j] > max_C)? C[row_C][j]:max_C;
-        min_C = (C[row_C][j] < min_C)? C[row_C][j]:min_C;
+        C[j][row_C] = C2[i][j];
+        max_C = (C[j][row_C] > max_C)? C[j][row_C]:max_C;
+        min_C = (C[j][row_C] < min_C)? C[j][row_C]:min_C;
         }
     }
     printf("C done\n");

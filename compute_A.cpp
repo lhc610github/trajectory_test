@@ -173,12 +173,12 @@ compute_A::run_compute(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
                 {
                     if ( k == j )
                     {
-                        c_A_res[base_count_i + base_count_state + j][base_count_i + base_count_state + k] = A[i][count_state][j][k] * mu_x;
+                        c_A_res[base_count_i + base_count_state + j][base_count_i + base_count_state + k] = A[i][count_state][j][k] * mu_x * 2;
                     }
                     else
                     {
-                        c_A_res[base_count_i + base_count_state + j][base_count_i + base_count_state + k] = (A[i][count_state][j][k]+A[i][count_state][k][j])/2*mu_x;
-                        c_A_res[base_count_i + base_count_state + k][base_count_i + base_count_state + j] = c_A_res[base_count_i + base_count_state + j][base_count_i + base_count_state + k];
+                        c_A_res[base_count_i + base_count_state + j][base_count_i + base_count_state + k] = (A[i][count_state][j][k]+A[i][count_state][k][j]) * mu_x;
+                        c_A_res[base_count_i + base_count_state + k][base_count_i + base_count_state + j] = c_A_res[base_count_i + base_count_state + j][base_count_i + base_count_state + k] * 2;
                     }
                 }
             }

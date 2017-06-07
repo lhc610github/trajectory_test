@@ -18,6 +18,8 @@ class compute_Constraint
         void combine_Cb();
         float ** C;
         float * b;
+        int C_size[2]; //[row,col]
+        int b_size[2]; //[row,col]
 
     private:
         int order;
@@ -37,7 +39,5 @@ class compute_Constraint
         float * b2; //new in compute_waypoint_C
         int C2_size[2]; //[row,col]
         int b2_size[2]; //[row,col]
-        int C_size[2]; //[row,col]
-        int b_size[2]; //[row,col]
 };
 #endif
