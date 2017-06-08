@@ -15,6 +15,8 @@ class compute_Constraint
         bool compute_pos_D_C(float temp_eps);
         void print_Matrix(float **sth,int row,int col);
         void print_Vector(float *sth,int length);
+        void print_C();
+        void print_b();
         void combine_Cb();
         float ** C;
         float * b;

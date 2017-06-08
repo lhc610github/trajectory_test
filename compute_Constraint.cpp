@@ -18,7 +18,7 @@ compute_Constraint(int temp_order, int temp_n, int temp_m, int temp_kr, int temp
     for (int i=0 ;i < 2*m*n ;i++)
     {
         C1[i] = new float[n*(order+1)*m];
-        memset(&(*C1[i]),0,sizeof(float)*(n*(order+1)*m));
+        memset(C1[i],0,sizeof(float)*(n*(order+1)*m));
     }
     C1_size[0] = 2*m*n;
     C1_size[1] = n*(order+1)*m;
@@ -31,7 +31,7 @@ compute_Constraint(int temp_order, int temp_n, int temp_m, int temp_kr, int temp
     for (int i=0 ;i < num ;i++)
     {
         C2[i] = new float[n*(order+1)*m];
-        memset(&(*C2[i]),0,sizeof(float)*(n*(order+1)*m));
+        memset(C2[i],0,sizeof(float)*(n*(order+1)*m));
     }
     C2_size[0] = num;
     C2_size[1] = n*(order+1)*m;
@@ -46,12 +46,12 @@ compute_Constraint(int temp_order, int temp_n, int temp_m, int temp_kr, int temp
     for (int i=0 ;i < C_size[0] ;i++)
     {
         C[i] = new float[C_size[1]];
-        memset(&(*C[i]),0,sizeof(float)*(C_size[1]));
+        memset(C[i],0,sizeof(float)*(C_size[1]));
     }
     b_size[0] = 1;
     b_size[1] = b1_size[1] + b2_size[1];
     b = new float[b_size[1]];
-    memset(&(*b),0,sizeof(float)*(b_size[1]));
+    memset(b,0,sizeof(float)*(b_size[1]));
 }
 
 compute_Constraint::
@@ -75,7 +75,7 @@ compute_Constraint::
     //}
     delete[] C2;
     delete[] b2;
-    //for (int i=0 ;i < C_size[1];i++)
+    //for (int i=0 ;i < C_size[0];i++)
     //{
         //delete[] C[i];
     //}
@@ -204,7 +204,7 @@ compute_pos_D_C(float temp_eps)
             for (int j=0;j<k_r;j++)
             {
                 C_r[i][j] = new float [3];
-                memset(&C_r[i][j][0],0,sizeof(float)*3);
+                memset(C_r[i][j],0,sizeof(float)*3);
             }
         }
         //velocity
@@ -244,7 +244,7 @@ compute_pos_D_C(float temp_eps)
         for (int i = 0;i < m;i++)
         {
             C_psi[i] = new float [k_psi];
-            memset(&C_psi[i][0],0,sizeof(float)*k_psi);
+            memset(C_psi[i],0,sizeof(float)*k_psi);
         }
         //velocity
         if(k_psi >= 1)
@@ -429,6 +429,27 @@ print_Vector(float *sth,int length)
         printf("%.2f ",sth[i]);
     }
     printf("|\n");
+}
+
+void
+compute_Constraint::
+print_C()
+{
+    for(int i=0; i < C_size[0]/2; i++)
+    {
+        for(int j=0; j < C_size[1]; j++)
+            printf("%.2f ",C[i][j]);
+        printf("\n");
+    }
+}
+
+void
+compute_Constraint::
+print_b()
+{
+    for(int j=0; j < b_size[1]; j++)
+        printf("%.2f ",b[j]);
+    printf("\n");
 }
 
 void

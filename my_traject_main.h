@@ -19,8 +19,7 @@ typedef CGAL::Gmpz ET;
 typedef CGAL::MP_Float ET;
 #endif
 
-// program and solution types
-// typedef CGAL::Quadratic_program<int> Program;
+ //program and solution types
 typedef CGAL::Quadratic_program_from_iterators
 <float**,                                             // for A
  float*,                                              // for b
@@ -32,6 +31,14 @@ typedef CGAL::Quadratic_program_from_iterators
  float**,                                             // for D
  float*>                                              // for c
 Program;
+
+//typedef CGAL::Nonnegative_linear_program_from_iterators
+//<float**,                                             // for A
+ //float*,                                              // for b
+ //CGAL::Const_oneset_iterator<CGAL::Comparison_result>,// for r
+ //float*>                                              // for c
+//Program;
+
 typedef CGAL::Quadratic_program_solution<ET> Solution;
 
 int main(int argc, char **argv);

@@ -7,16 +7,28 @@ compute_A(int temp_order,int temp_m)
     for (int i=0 ; i < A_col_row ; i++)
     {
         c_A_res[i] = new float [A_col_row];
-        memset(&c_A_res[i][0],0,sizeof(float)*A_col_row);
+        memset(c_A_res[i],0,sizeof(float)*A_col_row);
+    }
+    D2_res = new float *[A_col_row];
+    for (int i=0 ; i < A_col_row ; i++)
+    {
+        D2_res[i] = new float [i+1];
+        memset(D2_res[i],0,sizeof(float)*(i+1));
     }
 }
 
 compute_A::
 ~compute_A()
 {
+    for (int i=0 ; i < A_col_row ; i++)
+    {
+       delete[] D2_res[i];
+    }
+    delete[] D2_res;
     //for (int i=0 ; i < A_col_row ; i++)
     //{
-        //delete c_A_res[i];
+        //printf("%d  ",i);
+        //delete[] c_A_res[i];
     //}
     delete[] c_A_res;
 }
@@ -79,7 +91,7 @@ compute_A::run_compute(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
             for (k=0; k<(order+1); k++)
             {
                 A[i][j][k] = new float[order+1];
-                memset(&(*A[i][j][k]),0,sizeof(float)*(order+1));
+                memset(A[i][j][k],0,sizeof(float)*(order+1));
             }
         }
     }
@@ -173,17 +185,18 @@ compute_A::run_compute(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
                 {
                     if ( k == j )
                     {
-                        c_A_res[base_count_i + base_count_state + j][base_count_i + base_count_state + k] = A[i][count_state][j][k] * mu_x * 2;
+                        c_A_res[base_count_i + base_count_state + j][base_count_i + base_count_state + k] = (float)A[i][count_state][j][k] * mu_x;
                     }
                     else
                     {
-                        c_A_res[base_count_i + base_count_state + j][base_count_i + base_count_state + k] = (A[i][count_state][j][k]+A[i][count_state][k][j]) * mu_x;
-                        c_A_res[base_count_i + base_count_state + k][base_count_i + base_count_state + j] = c_A_res[base_count_i + base_count_state + j][base_count_i + base_count_state + k] * 2;
+                        c_A_res[base_count_i + base_count_state + j][base_count_i + base_count_state + k] = ((float)A[i][count_state][j][k]+(float)A[i][count_state][k][j])/2 * mu_x;
+                        c_A_res[base_count_i + base_count_state + k][base_count_i + base_count_state + j] = (float)c_A_res[base_count_i + base_count_state + j][base_count_i + base_count_state + k];
                     }
                 }
             }
         }
     }
+    get_2D();
 
     for (i = 0; i<m ;i++)
     {
@@ -201,7 +214,19 @@ compute_A::run_compute(float mu_r, float mu_psi, int k_r, int k_psi, float *t)
     delete[] polynomial_r;
     delete[] polynomial_psi;
 }
-
+void
+compute_A::print_2D()
+{
+    printf("2D :\n");
+    for (int i=0; i< A_col_row; i++)
+    {
+        for (int j=0; j<i+1; j++)
+        {
+           printf("%.2f ",D2_res[i][j]);
+        }
+        printf("\n");
+    }
+}
 void
 compute_A::print_A()
 {
@@ -232,3 +257,21 @@ compute_A::print_matrix(float **sth, int row, int col)
     }
     printf("\n");
 }
+
+void
+compute_A::get_2D()
+{
+    float max_2D = -1;
+    float min_2D = 1;
+    for (int i=0; i< A_col_row; i++)
+    {
+        for (int j=0; j<i+1; j++)
+        {
+            D2_res[i][j] = 2*c_A_res[i][j];
+            max_2D = (D2_res[i][j]>max_2D)?D2_res[i][j]:max_2D;
+            min_2D = (D2_res[i][j]<min_2D)?D2_res[i][j]:min_2D;
+        }
+    }
+    printf("get 2D \n in 2D max: %.2f   min: %.2f \n",max_2D,min_2D);
+}
+
