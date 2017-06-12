@@ -23,7 +23,8 @@ typedef CGAL::MP_Float ET;
 typedef CGAL::Quadratic_program_from_iterators
 <float**,                                             // for A
  float*,                                              // for b
- CGAL::Const_oneset_iterator<CGAL::Comparison_result>,// for r
+ //CGAL::Const_oneset_iterator<CGAL::Comparison_result>,// for r
+ CGAL::Comparison_result*,                            // for r
  bool*,                                               // for fl
  float*,                                              // for l
  bool*,                                               // for fu

@@ -12,18 +12,18 @@ compute_A(int temp_order,int temp_m)
     D2_res = new float *[A_col_row];
     for (int i=0 ; i < A_col_row ; i++)
     {
-        D2_res[i] = new float [i+1];
-        memset(D2_res[i],0,sizeof(float)*(i+1));
+        D2_res[i] = new float [A_col_row];//[i+1];
+        memset(D2_res[i],0,sizeof(float)*(A_col_row));//(i+1));
     }
 }
 
 compute_A::
 ~compute_A()
 {
-    for (int i=0 ; i < A_col_row ; i++)
-    {
-       delete[] D2_res[i];
-    }
+    //for (int i=0 ; i < A_col_row ; i++)
+    //{
+       //delete[] D2_res[i];
+    //}
     delete[] D2_res;
     //for (int i=0 ; i < A_col_row ; i++)
     //{
@@ -265,7 +265,7 @@ compute_A::get_2D()
     float min_2D = 1;
     for (int i=0; i< A_col_row; i++)
     {
-        for (int j=0; j<i+1; j++)
+        for (int j=0; j< A_col_row; j++)//i+1; j++)
         {
             D2_res[i][j] = 2*c_A_res[i][j];
             max_2D = (D2_res[i][j]>max_2D)?D2_res[i][j]:max_2D;

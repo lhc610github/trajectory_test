@@ -50,15 +50,23 @@ main(int argc, char **argv)
    C_C.compute_waypoint_C(keyframe,t_index);
    C_C.compute_pos_D_C(temp_eps);
    C_C.combine_Cb();
-   CGAL::Const_oneset_iterator<CGAL::Comparison_result>
-         //r(   CGAL::EQUAL);
-         r(   CGAL::SMALLER);
+   //CGAL::Const_oneset_iterator<CGAL::Comparison_result>
+   CGAL::Comparison_result r[C_C.C_size[0]]; //r(   CGAL::EQUAL); //r(   CGAL::SMALLER);
+   CGAL::Quadratic_program_pricing_strategy strategy[] = {
+       CGAL::QP_CHOOSE_DEFAULT,
+       CGAL::QP_DANTZIG,
+       CGAL::QP_PARTIAL_DANTZIG,
+       CGAL::QP_BLAND,
+       CGAL::QP_FILTERED_DANTZIG,
+       CGAL::QP_PARTIAL_FILTERED_DANTZIG
+   };
    bool fl[C_C.C_size[0]];
    float l[C_C.C_size[0]];
    for (int i=0; i<C_C.C_size[0]; i++)
    {
        fl[i] = false;
        l[i] = 0.0;
+       r[i] = CGAL::EQUAL;
    }
    bool fu[C_C.C_size[0]];
    float u[C_C.C_size[0]];
@@ -83,14 +91,18 @@ main(int argc, char **argv)
    //Program qp (C_C.C_size[0],C_C.C_size[1],C_C.C,C_C.b,r,c);
 
    //CGAL::print_linear_program(std::cout, qp, "test_traject");
-   Solution s = CGAL::solve_quadratic_program(qp, ET());
-   //Solution s = CGAL::solve_nonnegative_linear_program(qp, ET());
+   CGAL::Quadratic_program_options options;
+   options.set_verbosity(1);
+   options.set_pricing_strategy(strategy[3]);
+   options.set_auto_validation(true);
+   Solution s = CGAL::solve_quadratic_program(qp, ET(),options);
+   assert (s.is_valid());
    std::cout << s;
-   //Solution::Index_iterator it = s.basic_variable_indices_begin();
-   //Solution::Index_iterator end = s.basic_variable_indices_end();
-   //for (; it != end; ++it)
-     //  std::cout << *it << " ";
-   //std::cout << std::endl;
+   Solution::Index_iterator it = s.basic_variable_indices_begin();
+   Solution::Index_iterator end = s.basic_variable_indices_end();
+   for (; it != end; ++it)
+       std::cout << *it << " ";
+   std::cout << std::endl;
    printf("done\n");
    for (int i=0;i <6;i++)
    {

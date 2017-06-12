@@ -40,7 +40,7 @@ compute_Constraint(int temp_order, int temp_n, int temp_m, int temp_kr, int temp
     b2_size[1] = num;
     // C's row is num of variables
     // C's col is num of equations 
-    C_size[1] = C1_size[0] + C2_size[0];
+    C_size[1] = C1_size[0];// + C2_size[0];
     C_size[0] = C1_size[1];//same as C2
     C = new float *[C_size[0]];
     for (int i=0 ;i < C_size[0] ;i++)
@@ -49,7 +49,7 @@ compute_Constraint(int temp_order, int temp_n, int temp_m, int temp_kr, int temp
         memset(C[i],0,sizeof(float)*(C_size[1]));
     }
     b_size[0] = 1;
-    b_size[1] = b1_size[1] + b2_size[1];
+    b_size[1] = b1_size[1];// + b2_size[1];
     b = new float[b_size[1]];
     memset(b,0,sizeof(float)*(b_size[1]));
 }
@@ -196,15 +196,15 @@ compute_pos_D_C(float temp_eps)
     }
     //int i,j,k;
     // constraintData.m
-        float *** C_r; // constraintData_r
-        C_r = new float **[m];
+        bool *** C_r; // constraintData_r false for 0 : true for eps
+        C_r = new bool **[m];
         for (int i = 0;i < m;i++)
         {
-            C_r[i] = new float *[k_r];
+            C_r[i] = new bool *[k_r];
             for (int j=0;j<k_r;j++)
             {
-                C_r[i][j] = new float [3];
-                memset(C_r[i][j],0,sizeof(float)*3);
+                C_r[i][j] = new bool [3];
+                memset(C_r[i][j],0,sizeof(bool)*3);
             }
         }
         //velocity
@@ -212,44 +212,44 @@ compute_pos_D_C(float temp_eps)
         {
             for (int i = 0;i < 3;i ++)
             {
-                C_r[0][0][i] = 0; //At starting position
-                C_r[0][1][i] = 0; //At starting position
-                C_r[0][2][i] = 0; //At starting position
-                C_r[1][2][i] = 0; //At starting position
-                C_r[2][2][i] = 0; //At starting position
-                C_r[3][2][i] = 0; //At starting position
+                C_r[0][0][i] = false; //At starting position
+                C_r[0][1][i] = false; //At starting position
+                C_r[0][2][i] = false; //At starting position
+                C_r[1][2][i] = false; //At starting position
+                C_r[2][2][i] = false; //At starting position
+                C_r[3][2][i] = false; //At starting position
             }
             for (int i = 1;i < m;i ++)
             {
-                C_r[i][0][0] = temp_eps; // x,y velocities
-                C_r[i][0][1] = temp_eps;
-                C_r[i][0][2] = temp_eps; // z velocities
+                C_r[i][0][0] = true; // x,y velocities
+                C_r[i][0][1] = true;
+                C_r[i][0][2] = true; // z velocities
             }
         }
         //acceleration
         if(k_r >= 2)
         {
-                C_r[0][1][2] = 0; //At starting position
+                C_r[0][1][2] = false; //At starting position
             for (int i = 1;i < m;i ++)
             {
-                C_r[i][1][0] = temp_eps; // x,y velocities
-                C_r[i][1][1] = temp_eps;
-                C_r[i][1][2] = temp_eps; // z velocities
+                C_r[i][1][0] = true; // x,y velocities
+                C_r[i][1][1] = true;
+                C_r[i][1][2] = true; // z velocities
             }
         }
         //jerk
         //snap
-        float ** C_psi; // constraintData_psi
-        C_psi = new float *[m];
+        bool ** C_psi; // constraintData_psi
+        C_psi = new bool *[m];
         for (int i = 0;i < m;i++)
         {
-            C_psi[i] = new float [k_psi];
-            memset(C_psi[i],0,sizeof(float)*k_psi);
+            C_psi[i] = new bool [k_psi];
+            memset(C_psi[i],0,sizeof(bool)*k_psi);
         }
         //velocity
         if(k_psi >= 1)
         {
-            C_psi[0][0] = 0;
+            C_psi[0][0] = false;
         }
         //acceleration
         //jerk
@@ -284,7 +284,7 @@ compute_pos_D_C(float temp_eps)
                 
                 for (int l_con = 0;l_con < (n-1);l_con++)
                 {
-                    continuity[l_con] = (C_r[i][k][l_con] == temp_eps)?true:false;
+                    continuity[l_con] = C_r[i][k][l_con];
                     if(continuity[l_con])
                     {
                         for (int j = 0;j < order+1;j++)
@@ -300,7 +300,7 @@ compute_pos_D_C(float temp_eps)
                         {
                             C2[l_con+k*(n-1)][l_con*(order+1)+j] = values[j];
                         }
-                        b2[l_con+k*(n-1)] = C_r[i][k][l_con];
+                        b2[l_con+k*(n-1)] = (C_r[i][k][l_con])? temp_eps:0.0;
 
                     }
                 }
@@ -329,7 +329,7 @@ compute_pos_D_C(float temp_eps)
                         {
                             C2[l_con+k*(n-1)+(n-1)*k_r][(m-1)*(order+1)*n + l_con*(order+1)+j] = values[j];
                         }
-                        b2[l_con+k*(n-1)+(n-1)*k_r] = C_r[i][k][l_con];
+                        b2[l_con+k*(n-1)+(n-1)*k_r] = (C_r[i][k][l_con])? temp_eps:0.0;
                     }
                 }
             }
@@ -354,7 +354,7 @@ compute_pos_D_C(float temp_eps)
 
                 for (int l_con = 0;l_con < (n-1);l_con ++)
                 {
-                    continuity[l_con] = (C_r[i][k][l_con]==temp_eps)? true:false;
+                    continuity[l_con] = C_r[i][k][l_con];
                     if (continuity[l_con])
                     {
                         for (int j = 0;j < order+1;j++)
@@ -371,8 +371,8 @@ compute_pos_D_C(float temp_eps)
                             C2[l_con + k*(n-1) + 2*i*(n-1)*k_r][(i-1)*(order+1)*n + l_con*(order+1)+j] = values[j];
                             C2[l_con + k*(n-1) + 2*i*(n-1)*k_r + (n-1)*k_r][i*(order+1)*n + l_con*(order+1)+j] = values[j];
                         }
-                        b2[l_con + k*(n-1) + 2*i*(n-1)*k_r] = C_r[i][k][l_con];
-                        b2[l_con + k*(n-1) + 2*i*(n-1)*k_r + (n-1)*k_r] = C_r[i][k][l_con];
+                        b2[l_con + k*(n-1) + 2*i*(n-1)*k_r] = (C_r[i][k][l_con])? temp_eps:0.0;
+                        b2[l_con + k*(n-1) + 2*i*(n-1)*k_r + (n-1)*k_r] = (C_r[i][k][l_con])? temp_eps:0.0;
                     }
                     
                 }
@@ -435,7 +435,7 @@ void
 compute_Constraint::
 print_C()
 {
-    for(int i=0; i < C_size[0]/2; i++)
+    for(int i=0; i < C_size[0]; i++)
     {
         for(int j=0; j < C_size[1]; j++)
             printf("%.2f ",C[i][j]);
@@ -473,7 +473,7 @@ float min_b = 1;
         }
     }
     // C2
-    for(int i=0; i < C2_size[0]; i++)
+/*    for(int i=0; i < C2_size[0]; i++)
     {
         for(int j=0; j < C2_size[1]; j++)
         {
@@ -482,7 +482,7 @@ float min_b = 1;
         max_C = (C[j][row_C] > max_C)? C[j][row_C]:max_C;
         min_C = (C[j][row_C] < min_C)? C[j][row_C]:min_C;
         }
-    }
+    }*/
     printf("C done\n");
 // b
     // b1
@@ -493,13 +493,14 @@ float min_b = 1;
         min_b = (b[i] < min_b)? b[i]:min_b;
     }
     // b2
-    for(int i=0; i < b2_size[1]; i++)
+ /*   for(int i=0; i < b2_size[1]; i++)
     {
         int row_b = i+b1_size[1];
         b[row_b] = b2[i];
         max_b = (b[row_b] > max_b)? b[row_b]:max_b;
         min_b = (b[row_b] < min_b)? b[row_b]:min_b;
-    }
+    }*/
+    printf("b done\n");
     printf("C[%d][%d]  combine done \n in C   max: %.2f  min: %.2f \n",C_size[0],C_size[1],max_C,min_C);
     printf("b[%d][%d]  combine done \n in b   max: %.2f  min: %.2f \n",b_size[0],b_size[1],max_b,min_b);
     
