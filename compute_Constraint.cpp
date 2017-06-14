@@ -40,7 +40,7 @@ compute_Constraint(int temp_order, int temp_n, int temp_m, int temp_kr, int temp
     b2_size[1] = num;
     // C's row is num of variables
     // C's col is num of equations 
-    C_size[1] = C1_size[0];// + C2_size[0];
+    C_size[1] = C1_size[0] + C2_size[0];
     C_size[0] = C1_size[1];//same as C2
     C = new float *[C_size[0]];
     for (int i=0 ;i < C_size[0] ;i++)
@@ -49,7 +49,7 @@ compute_Constraint(int temp_order, int temp_n, int temp_m, int temp_kr, int temp
         memset(C[i],0,sizeof(float)*(C_size[1]));
     }
     b_size[0] = 1;
-    b_size[1] = b1_size[1];// + b2_size[1];
+    b_size[1] = b1_size[1] + b2_size[1];
     b = new float[b_size[1]];
     memset(b,0,sizeof(float)*(b_size[1]));
 }
@@ -473,7 +473,7 @@ float min_b = 1;
         }
     }
     // C2
-/*    for(int i=0; i < C2_size[0]; i++)
+    for(int i=0; i < C2_size[0]; i++)
     {
         for(int j=0; j < C2_size[1]; j++)
         {
@@ -482,7 +482,7 @@ float min_b = 1;
         max_C = (C[j][row_C] > max_C)? C[j][row_C]:max_C;
         min_C = (C[j][row_C] < min_C)? C[j][row_C]:min_C;
         }
-    }*/
+    }
     printf("C done\n");
 // b
     // b1
@@ -493,13 +493,13 @@ float min_b = 1;
         min_b = (b[i] < min_b)? b[i]:min_b;
     }
     // b2
- /*   for(int i=0; i < b2_size[1]; i++)
+    for(int i=0; i < b2_size[1]; i++)
     {
         int row_b = i+b1_size[1];
         b[row_b] = b2[i];
         max_b = (b[row_b] > max_b)? b[row_b]:max_b;
         min_b = (b[row_b] < min_b)? b[row_b]:min_b;
-    }*/
+    }
     printf("b done\n");
     printf("C[%d][%d]  combine done \n in C   max: %.2f  min: %.2f \n",C_size[0],C_size[1],max_C,min_C);
     printf("b[%d][%d]  combine done \n in b   max: %.2f  min: %.2f \n",b_size[0],b_size[1],max_b,min_b);

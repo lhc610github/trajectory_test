@@ -28,15 +28,15 @@ main(int argc, char **argv)
    keyframe[2][0] = 1;
    keyframe[2][1] = 2;
    keyframe[2][2] = 3;
-   keyframe[2][3] = 4;
+   keyframe[2][3] = 2;
    keyframe[3][0] = 1;
    keyframe[3][1] = 4;
    keyframe[3][2] = 2;
-   keyframe[3][3] = 4;
+   keyframe[3][3] = 3;
    keyframe[4][0] = 7;
    keyframe[4][1] = 3;
    keyframe[4][2] = 2;
-   keyframe[4][3] = 1;
+   keyframe[4][3] = 4;
    keyframe[5][0] = keyframe[0][0];
    keyframe[5][1] = keyframe[0][1];
    keyframe[5][2] = keyframe[0][2];
@@ -65,18 +65,23 @@ main(int argc, char **argv)
    for (int i=0; i<C_C.C_size[0]; i++)
    {
        fl[i] = false;
-       l[i] = 0.0;
-       r[i] = CGAL::EQUAL;
+       l[i] = -20.1;
+       if (i<40)
+            r[i] = CGAL::EQUAL;
+       else
+            r[i] = CGAL::SMALLER;
    }
    bool fu[C_C.C_size[0]];
    float u[C_C.C_size[0]];
    float c[C_C.C_size[0]];
+   float c0;
    for (int i=0; i<C_C.C_size[0]; i++)
    {
        fu[i] = false;
-       u[i] = 0.0;
+       u[i] = 20.8;
        c[i] = 0.0;
    }
+    c0 = 1.0;
    printf("initiall done\n");
    printf("sizeof A is [%d] X [%d]\n",C_C.C_size[0],C_C.C_size[1]);
    printf("sizeof b is [%d] \n",C_C.b_size[1]);
@@ -86,22 +91,32 @@ main(int argc, char **argv)
    //C_C.print_b();
 
 //solve Quadratic Program problem
-   //Program qp (C_C.C_size[0],C_C.C_size[1],C_C.C,C_C.b,r,fl,l,fu,u,C_A.c_A_res,c);
-   Program qp (C_C.C_size[0],C_C.C_size[1],C_C.C,C_C.b,r,fl,NULL,fu,NULL,C_A.D2_res,c);
-   //Program qp (C_C.C_size[0],C_C.C_size[1],C_C.C,C_C.b,r,c);
+   Program qp (C_C.C_size[0],C_C.C_size[1],C_C.C,C_C.b,r,fl,l,fu,u,C_A.D2_res,c,c0);
+   //Program qp (C_C.C_size[0],C_C.C_size[1],C_C.C,C_C.b,r,fl,NULL,fu,NULL,C_A.D2_res,c,c0);
 
-   //CGAL::print_linear_program(std::cout, qp, "test_traject");
    CGAL::Quadratic_program_options options;
    options.set_verbosity(1);
-   options.set_pricing_strategy(strategy[3]);
+   options.set_pricing_strategy(strategy[5]);
    options.set_auto_validation(true);
+   //return 1;
    Solution s = CGAL::solve_quadratic_program(qp, ET(),options);
    assert (s.is_valid());
    std::cout << s;
-   Solution::Index_iterator it = s.basic_variable_indices_begin();
-   Solution::Index_iterator end = s.basic_variable_indices_end();
-   for (; it != end; ++it)
-       std::cout << *it << " ";
+   //Solution::Index_iterator it = s.basic_variable_indices_begin();
+   //Solution::Index_iterator end = s.basic_variable_indices_end();
+   //for (; it != end; ++it)
+       //std::cout << *it << " ";
+   //std::cout << std::endl;
+   //Solution::Optimality_certificate_iterator result_it = s.optimality_certificate_begin();
+   //Solution::Optimality_certificate_iterator result_end = s.optimality_certificate_end();
+   //for (; result_it != result_end; ++result_it)
+       //std::cout << *result_it << " ";
+   //std::cout << std::endl;
+   std::cout << " result: " << std::endl;
+   Solution::Variable_value_iterator result_it = s.variable_values_begin();
+   Solution::Variable_value_iterator result_end = s.variable_values_end();
+   for (; result_it != result_end; ++result_it)
+       std::cout << *result_it << " ";
    std::cout << std::endl;
    printf("done\n");
    for (int i=0;i <6;i++)
